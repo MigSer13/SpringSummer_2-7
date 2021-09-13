@@ -16,13 +16,12 @@ public class CartTest {
     @Autowired
     private Cart cart;
 
+    private List<OrderItemDto> items;
+
     @BeforeEach
     public void init(){
         cart.clear();
-    }
 
-    @Test
-    public void changeQuantityTest(){
         OrderItemDto orderItemDto = new OrderItemDto();
         orderItemDto.setProductId(1L);
         orderItemDto.setQuantity(1);
@@ -34,7 +33,17 @@ public class CartTest {
         cart.getItems().add(orderItemDto);
         cart.changeQuantity(1L, 2);
         cart.changeQuantity(1L, 3);
+        cart.changeQuantity(2L, 5);
+    }
 
+    @Test
+    public void changeQuantityTest(){
         Assertions.assertEquals(6, items.get(0).getQuantity());
+    }
+
+    @Test
+    public void removeToCartTest(){
+        cart.remove(2L);
+        Assertions.assertEquals(1, cart.getItems().size());
     }
 }
