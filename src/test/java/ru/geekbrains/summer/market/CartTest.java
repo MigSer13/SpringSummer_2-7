@@ -10,6 +10,7 @@ import ru.geekbrains.summer.market.utils.Cart;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.SynchronousQueue;
 
 @SpringBootTest
 public class CartTest {
@@ -22,15 +23,23 @@ public class CartTest {
     public void init(){
         cart.clear();
 
-        OrderItemDto orderItemDto = new OrderItemDto();
-        orderItemDto.setProductId(1L);
-        orderItemDto.setQuantity(1);
-        orderItemDto.setPricePerProduct(BigDecimal.valueOf(10));
-        orderItemDto.setPrice(BigDecimal.valueOf(10));
-        orderItemDto.setProductTitle("test");
+        OrderItemDto orderItemDto1 = new OrderItemDto();
+        orderItemDto1.setProductId(1L);
+        orderItemDto1.setQuantity(1);
+        orderItemDto1.setPricePerProduct(BigDecimal.valueOf(10));
+        orderItemDto1.setPrice(BigDecimal.valueOf(10));
+        orderItemDto1.setProductTitle("test1");
+
+        OrderItemDto orderItemDto2 = new OrderItemDto();
+        orderItemDto2.setProductId(2L);
+        orderItemDto2.setQuantity(1);
+        orderItemDto2.setPricePerProduct(BigDecimal.valueOf(10));
+        orderItemDto2.setPrice(BigDecimal.valueOf(10));
+        orderItemDto2.setProductTitle("test2");
 
         List<OrderItemDto> items = cart.getItems();
-        cart.getItems().add(orderItemDto);
+        cart.getItems().add(orderItemDto1);
+        cart.getItems().add(orderItemDto2);
         cart.changeQuantity(1L, 2);
         cart.changeQuantity(1L, 3);
         cart.changeQuantity(2L, 5);
@@ -43,7 +52,8 @@ public class CartTest {
 
     @Test
     public void removeToCartTest(){
-        cart.remove(2L);
+        cart.remove(1L);
+        System.out.println(cart.getItems());
         Assertions.assertEquals(1, cart.getItems().size());
     }
 }
